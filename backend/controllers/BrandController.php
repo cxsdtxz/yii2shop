@@ -11,7 +11,7 @@ class BrandController extends \yii\web\Controller
     public function actionIndex()
     {
         //分页 查询总条数
-        $total = Brand::find()->count();
+        $total = Brand::find()->where(['is_deleted'=>0])->count();
         $pageSize = 3;
         $pager = new Pagination();
         $pager->defaultPageSize = $pageSize;
