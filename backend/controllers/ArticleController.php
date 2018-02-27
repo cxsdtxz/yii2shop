@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use app\models\Article;
+use backend\models\Article;
 use yii\data\Pagination;
 
 class ArticleController extends \yii\web\Controller

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 
@@ -16,7 +16,6 @@ use Yii;
  */
 class Brand extends \yii\db\ActiveRecord
 {
-    public $imgFile;
     /**
      * @inheritdoc
      */
@@ -31,12 +30,11 @@ class Brand extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'sort'], 'required'],
+            [['name', 'sort','logo'], 'required'],
             [['name', 'sort'], 'unique'],
             [['sort', 'is_deleted'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['intro'], 'string', 'max' => 255],
-            ['imgFile','file','extensions'=>['png','jpg']]
         ];
     }
 

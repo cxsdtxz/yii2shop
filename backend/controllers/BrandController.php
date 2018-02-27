@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
-use app\models\Brand;
+use backend\models\Brand;
 use yii\data\Pagination;
 use yii\web\UploadedFile;
 
 class BrandController extends \yii\web\Controller
 {
+    public $enableCsrfValidation = false;
     public function actionIndex()
     {
         //分页 查询总条数
@@ -28,16 +29,7 @@ class BrandController extends \yii\web\Controller
         $request = \Yii::$app->request;
         if($request->isPost){
             $model->load($request->post());
-            //上传文件
-            $model->imgFile = UploadedFile::getInstance($model,'imgFile');
             if($model->validate()){
-                if($model->imgFile){
-                    //生成图片保存路径
-                    $file = '/uploads/'.uniqid().'.'.$model->imgFile->extension;
-                    if($model->imgFile->saveAs(\Yii::getAlias('@webroot').$file,0)){
-                       $model->logo = $file;
-                    }
-                }
                 //默认显示,is_deleted 为0
                 $model->is_deleted = 0;
                 //保存数据
@@ -58,16 +50,7 @@ class BrandController extends \yii\web\Controller
         $request = \Yii::$app->request;
         if($request->isPost){
             $model->load($request->post());
-            //上传文件
-            $model->imgFile = UploadedFile::getInstance($model,'imgFile');
             if($model->validate()){
-                if($model->imgFile){
-                    //生成图片保存路径
-                    $file = '/uploads/'.uniqid().'.'.$model->imgFile->extension;
-                    if($model->imgFile->saveAs(\Yii::getAlias('@webroot').$file,0)){
-                        $model->logo = $file;
-                    }
-                }
                 //默认显示,is_deleted 为0
                 $model->is_deleted = 0;
                 //保存数据
@@ -91,4 +74,18 @@ class BrandController extends \yii\web\Controller
         return $this->redirect(['brand/index']);
     }
 
+    //图片上传
+    public function actionLogoUpload(){
+        //实例化文件上传类
+        $imgFile = UploadedFile::getInstanceByName('file');
+        //生成保存图片的路径
+        $fileName = '/uploads/'.uniqid().'.'.$imgFile->extension;
+        $result = $imgFile->saveAs(\Yii::getAlias('@webroot').$fileName);
+        if($result){
+            //上传图片成功返回路径
+            return json_encode(
+                ['url'=>$fileName]
+            );
+        }
+    }
 }
