@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\Article;
+use backend\models\ArticleDetail;
 use yii\data\Pagination;
 
 class ArticleController extends \yii\web\Controller
@@ -21,15 +22,20 @@ class ArticleController extends \yii\web\Controller
     }
 
     public function actionAdd(){
-        //创建模型
+        //创建模型  文章表模型和详情表
         $model = new Article();
+        $content = new ArticleDetail();
         $request = \Yii::$app->request;
         if($request->isPost){
             $model->load($request->post());
+            $content->load($request->post());
             $model->is_deleted = 0;
             $model->create_time = time();
-            if($model->validate()){
+            if($model->validate() && $content->validate()){
                 $model->save();
+                $id = $model->attributes['id'];
+                $content->article_id = $id;
+                $content->save();
                 \Yii::$app->session->setFlash('success','添加成功');
                 return $this->redirect(['article/index']);
             }else{
@@ -37,19 +43,21 @@ class ArticleController extends \yii\web\Controller
             }
         }
         //加载视图
-        return $this->render('add',['model'=>$model]);
+        return $this->render('add',['model'=>$model,'content'=>$content]);
     }
 
     public function actionEdit($id){
         //创建模型
         $model = Article::findOne(['id'=>$id]);
+        $content = ArticleDetail::findOne(['article_id'=>$id]);
+
         $request = \Yii::$app->request;
         if($request->isPost){
             $model->load($request->post());
-            $model->is_deleted = 0;
-            $model->create_time = time();
-            if($model->validate()){
+            $content->load($request->post());
+            if($model->validate() && $content->validate()){
                 $model->save();
+                $content->save();
                 \Yii::$app->session->setFlash('success','修改成功');
                 return $this->redirect(['article/index']);
             }else{
@@ -57,7 +65,7 @@ class ArticleController extends \yii\web\Controller
             }
         }
         //加载视图
-        return $this->render('add',['model'=>$model]);
+        return $this->render('add',['model'=>$model,'content'=>$content]);
     }
 
     public function actionDelete($id){
@@ -67,4 +75,6 @@ class ArticleController extends \yii\web\Controller
         \Yii::$app->session->setFlash('success','删除成功');
         return $this->redirect(['article/index']);
     }
+
+
 }

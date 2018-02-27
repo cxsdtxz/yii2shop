@@ -1,0 +1,3 @@
+<p>
+    <?=$content->content?>
+</p>
