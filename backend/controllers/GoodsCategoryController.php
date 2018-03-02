@@ -27,13 +27,15 @@ class GoodsCategoryController extends \yii\web\Controller
                 }else{
                     $model->makeRoot();
                 }
-
                 \Yii::$app->session->setFlash('success','添加成功');
                 return $this->redirect(['goods-category/index']);
             }
         }
+        //查询分类数据传到视图
+        $nodes = GoodsCategory::find()->select(['id','parent_id','name'])->asArray()->all();
+        $nodes[] = ['id'=>0,'parent_id'=>0,'name'=>'顶级分类'];
         //加载视图
-        return $this->render('add',['model'=>$model]);
+        return $this->render('add',['model'=>$model,'nodes'=>json_encode($nodes)]);
     }
 
     public function actionEdit($id){
@@ -55,8 +57,11 @@ class GoodsCategoryController extends \yii\web\Controller
                 return $this->redirect(['goods-category/index']);
             }
         }
+        //查询分类数据传到视图
+        $nodes = GoodsCategory::find()->select(['id','parent_id','name'])->asArray()->all();
+        $nodes[] = ['id'=>0,'parent_id'=>0,'name'=>'顶级分类'];
         //加载视图
-        return $this->render('add',['model'=>$model]);
+        return $this->render('add',['model'=>$model,'nodes'=>json_encode($nodes)]);
     }
 
     public function actionDelete($id){
@@ -66,5 +71,13 @@ class GoodsCategoryController extends \yii\web\Controller
         \Yii::$app->session->setFlash('success','删除成功');
         return $this->redirect(['goods-category/index']);
     }
+
+    //ztree插件测试
+//    public function actionTest(){
+//        //查询数据
+//        $nodes = GoodsCategory::find()->select(['id','parent_id','name'])->asArray()->all();
+//        //将数据转为json格式传到视图
+//        return $this->renderPartial('ztree',['nodes'=>json_encode($nodes)]);
+//    }
 
 }
