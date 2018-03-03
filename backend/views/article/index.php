@@ -17,14 +17,14 @@
         <td><?=$article->sort?></td>
         <td><?=date('Y-m-d H:i:s',$article->create_time)?></td>
         <td>
-            <a href="<?=\yii\helpers\Url::to(['article/edit','id'=>$article->id])?>">修改</a>
-            <a href="<?=\yii\helpers\Url::to(['article/delete','id'=>$article->id])?>">删除</a>
-            <a href="<?=\yii\helpers\Url::to(['article-detail/read','id'=>$article->id])?>">查看</a>
+            <a href="<?=\yii\helpers\Url::to(['article/edit','id'=>$article->id])?>" class="btn btn-primary">修改</a>
+            <a href="<?=\yii\helpers\Url::to(['article/delete','id'=>$article->id])?>" class="btn btn-danger">删除</a>
+            <a href="<?=\yii\helpers\Url::to(['article-detail/read','id'=>$article->id])?>" class="btn btn-primary">查看</a>
         </td>
     </tr>
     <?php endforeach;?>
     <tr>
-        <td colspan="7"><a href="<?=\yii\helpers\Url::to(['article/add'])?>">添加</a></td>
+        <td colspan="7"><a href="<?=\yii\helpers\Url::to(['article/add'])?>" class="btn btn-primary">添加</a></td>
     </tr>
 </table>
 <?php

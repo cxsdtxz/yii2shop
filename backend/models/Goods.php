@@ -38,7 +38,7 @@ class Goods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'sn', 'logo', 'goods_category_id', 'brand_id', 'market_price', 'shop_price', 'stock', 'is_on_sale', 'status', 'sort', 'create_time'], 'required'],
+            [['name', 'logo', 'goods_category_id', 'brand_id', 'market_price', 'shop_price', 'stock', 'is_on_sale', 'sort'], 'required'],
             [['goods_category_id', 'brand_id', 'stock', 'is_on_sale', 'status', 'sort', 'create_time', 'view_times'], 'integer'],
             [['market_price', 'shop_price'], 'number'],
             [['name', 'sn'], 'string', 'max' => 20],
@@ -67,5 +67,21 @@ class Goods extends \yii\db\ActiveRecord
             'create_time' => '添加时间',
             'view_times' => '浏览次数',
         ];
+    }
+
+    public function getBrand(){
+        //查询品牌数据
+        $brands = Brand::find()->all();
+        $arr = [];
+        foreach ($brands as $brand){
+            $arr[$brand->id] = $brand->name;
+        }
+        return $arr;
+    }
+
+    //关联品牌表
+    public function getBrands(){
+        //brand表的id 对应 goods表的 goods_category_id
+        return $this->hasOne(Brand::class,['id'=>'brand_id']);
     }
 }

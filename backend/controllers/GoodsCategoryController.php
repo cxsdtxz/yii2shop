@@ -20,7 +20,7 @@ class GoodsCategoryController extends \yii\web\Controller
             //加载数据
             $model->load($request->post());
             if($model->validate()){
-                //保存数据
+                //保存数据  判断是否为根节点
                 if ($model->parent_id){
                     $parent = GoodsCategory::findOne(['id'=>$model->parent_id]);
                     $model->prependTo($parent);
@@ -31,7 +31,7 @@ class GoodsCategoryController extends \yii\web\Controller
                 return $this->redirect(['goods-category/index']);
             }
         }
-        //查询分类数据传到视图
+        //查询分类数据传到视图 给ztree使用
         $nodes = GoodsCategory::find()->select(['id','parent_id','name'])->asArray()->all();
         $nodes[] = ['id'=>0,'parent_id'=>0,'name'=>'顶级分类'];
         //加载视图
@@ -51,7 +51,11 @@ class GoodsCategoryController extends \yii\web\Controller
                     $parent = GoodsCategory::findOne(['id'=>$model->parent_id]);
                     $model->prependTo($parent);
                 }else{
-                    $model->makeRoot();
+                    if($model->getOldAttribute('parent_id')==0){
+                        $model->save();
+                    }else{
+                        $model->makeRoot();
+                    }
                 }
                 \Yii::$app->session->setFlash('success','修改成功');
                 return $this->redirect(['goods-category/index']);
@@ -67,7 +71,13 @@ class GoodsCategoryController extends \yii\web\Controller
     public function actionDelete($id){
         //根据id 找到对应的数据
         $model = GoodsCategory::findOne(['id'=>$id]);
-        $model->delete();
+        //判断是否删除的是根节点,如果是用deleteWithChildren删除
+        if($model->parent_id){
+            $model->delete();
+        }else{
+            $model->deleteWithChildren();
+        }
+
         \Yii::$app->session->setFlash('success','删除成功');
         return $this->redirect(['goods-category/index']);
     }
