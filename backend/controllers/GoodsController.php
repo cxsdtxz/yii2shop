@@ -19,11 +19,6 @@ class GoodsController extends \yii\web\Controller
         //搜索
         $search = new GoodsSearch();
         $request = \Yii::$app->request;
-        $name = '';
-        $sn = '';
-        $price_min = '';
-        $price_max = '';
-        $sql = [];
         if($request->isGet){
             //接受搜索框传过来的值
             $name = $request->get('GoodsSearch')['name'];
@@ -35,6 +30,7 @@ class GoodsController extends \yii\web\Controller
             $search->price_min = $price_min;
             $search->price_max = $price_max;
             //判断价格区间,根据传过来的值 判断查询方式,组成不同的查询条件
+            $sql = [];
             if($price_min !='' && $price_max == ''){
                 $sql = ['<','shop_price',"{$price_min}"];
             }elseif ($price_min =='' && $price_max != ''){

@@ -11,12 +11,12 @@
         <td><?= $goodsCategory->parent_id?></td>
         <td><?= $goodsCategory->intro?></td>
         <td>
-            <a href="<?=\yii\helpers\Url::to(['goods-category/edit','id'=>$goodsCategory->id])?>">修改</a>
-            <a href="<?=\yii\helpers\Url::to(['goods-category/delete','id'=>$goodsCategory->id])?>">删除</a>
+            <a href="<?=\yii\helpers\Url::to(['goods-category/edit','id'=>$goodsCategory->id])?>" class="btn btn-primary">修改</a>
+            <a href="<?=\yii\helpers\Url::to(['goods-category/delete','id'=>$goodsCategory->id])?>" class="btn btn-danger">删除</a>
         </td>
     </tr>
     <?php endforeach;?>
     <tr>
-        <td colspan="9"><a href="<?=\yii\helpers\Url::to(['goods-category/add'])?>">添加</a></td>
+        <td colspan="9"><a href="<?=\yii\helpers\Url::to(['goods-category/add'])?>" class="btn btn-primary">添加</a></td>
     </tr>
 </table>

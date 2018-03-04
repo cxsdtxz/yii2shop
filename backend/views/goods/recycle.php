@@ -26,7 +26,7 @@
             <td><?=date('Y-m-d',$good->create_time)?></td>
             <td><?=$good->view_times?></td>
             <td>
-                <a href="<?=\yii\helpers\Url::to(['goods/restore','id'=>$good->id])?>">还原</a>
+                <a href="<?=\yii\helpers\Url::to(['goods/restore','id'=>$good->id])?>" class="btn btn-primary">还原</a>
             </td>
         </tr>
     <?php endforeach;?>

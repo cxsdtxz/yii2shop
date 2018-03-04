@@ -15,14 +15,14 @@
         <td><img src="<?=$brand['logo']?>" alt="请等待" width="50px"></td>
         <td><?=$brand['sort']?></td>
         <td>
-            <a href="<?=\yii\helpers\Url::to(['brand/edit','id'=>$brand['id']])?>">修改</a>
-            <a href="<?=\yii\helpers\Url::to(['brand/delete','id'=>$brand['id']])?>">删除</a>
+            <a href="<?=\yii\helpers\Url::to(['brand/edit','id'=>$brand['id']])?>" class="btn btn-primary">修改</a>
+            <a href="<?=\yii\helpers\Url::to(['brand/delete','id'=>$brand['id']])?>" class="btn btn-danger">删除</a>
         </td>
     </tr>
     <?php endforeach;?>
     <tr>
         <td colspan="6">
-            <a href="<?=\yii\helpers\Url::to(['brand/add'])?>">添加</a>
+            <a class="btn btn-primary" href="<?=\yii\helpers\Url::to(['brand/add'])?>">添加</a>
         </td>
     </tr>
 </table>

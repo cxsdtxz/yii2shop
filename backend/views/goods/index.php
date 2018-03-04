@@ -1,7 +1,7 @@
 <?php
 $form = \yii\bootstrap\ActiveForm::begin([
         'layout'=>'inline',
-        'action'=>'index',
+        'action'=>\yii\helpers\Url::to(['goods/index']),
         'method'=>'get'
 ]);
 echo $form->field($search,'name')->textInput([
