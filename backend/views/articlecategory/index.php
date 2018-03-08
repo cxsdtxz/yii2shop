@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>id</th>
         <th>名称</th>
@@ -14,7 +14,7 @@
         <td><?=$articlecategory->sort?></td>
         <td>
             <a href="<?= \yii\helpers\Url::to(['articlecategory/edit','id'=>$articlecategory->id])?>" class="btn btn-primary">修改</a>
-            <a href="<?= \yii\helpers\Url::to(['articlecategory/delete','id'=>$articlecategory->id])?>" class="btn btn-primary">删除</a>
+            <a href="#" class="btn btn-danger" date="<?=$articlecategory->id?>">删除</a>
         </td>
     </tr>
     <?php endforeach;?>
@@ -22,3 +22,28 @@
         <td colspan="5"><a href="<?=\yii\helpers\Url::to(['articlecategory/add'])?>" class="btn btn-primary">添加</a></td>
     </tr>
 </table>
+<?php
+/**
+ * @var $this \yii\web\View
+ */
+$fileName = \yii\helpers\Url::to(['articlecategory/delete']);
+$this->registerJs(
+        <<<JS
+$(function() {
+  $("[date]").click(function() {
+    if(confirm("确认删除吗?")){
+        var id = $(this).attr('date');
+        var del = $(this);
+        $.get("{$fileName}",{"id":id},function(val) {
+          if (val.res == 1){
+              del.closest('tr').remove();
+          }else {
+              alert('删除失败')
+          }
+        },"json")
+    }
+  })
+})
+JS
+
+);

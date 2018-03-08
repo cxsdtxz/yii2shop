@@ -56,7 +56,7 @@ class Article extends \yii\db\ActiveRecord
 
     public function getArticleCategorys(){
         //查询分类表的数据
-        $articleCategorys = Articlecategory::find()->all();
+        $articleCategorys = Articlecategory::find()->where(['is_deleted'=>0])->all();
         $arr = [];
         foreach($articleCategorys as $articleCategory){
             $arr[$articleCategory->id] = $articleCategory->name;

@@ -26,6 +26,9 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     public $new_password;
     public $old_password;
     public $re_password;
+    public $roles;
+    const SCENARIO_ADD = 'add';
+    const SCENARIO_EDIT = 'edit';
 
 
     /**
@@ -42,14 +45,19 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password_hash', 'email','confirm'], 'required'],
+            [['username', 'email'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'last_login_time', 'last_login_ip'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
+            ['password_hash','required','on'=>self::SCENARIO_ADD],
+            ['confirm','required','on'=>self::SCENARIO_ADD],
+            ['password_hash','safe','on'=>self::SCENARIO_EDIT],
+            ['confirm','safe','on'=>self::SCENARIO_EDIT],
             ['confirm', 'compare', 'compareAttribute' => 'password_hash','message'=>'两次输入密码不一致!'],
+            ['roles','safe']
         ];
     }
 
@@ -138,5 +146,15 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
+    }
+
+    public static function getRoles(){
+        $authManager = Yii::$app->authManager;
+        $roles = $authManager->getRoles();
+        $item = [];
+        foreach ($roles as $role){
+            $item[$role->name] = $role->name;
+        }
+        return $item;
     }
 }

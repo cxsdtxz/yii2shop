@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\Article;
 use backend\models\ArticleDetail;
 use yii\data\Pagination;
@@ -72,13 +73,22 @@ class ArticleController extends \yii\web\Controller
         return $this->render('add', ['model' => $model, 'content' => $content]);
     }
 
-    public function actionDelete($id)
+    public function actionDelete()
     {
+        //接受id
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
         $model = Article::findOne(['id' => $id]);
         $model->is_deleted = 1;
-        $model->save();
-        \Yii::$app->session->setFlash('success', '删除成功');
-        return $this->redirect(['article/index']);
+        if($model->save()){
+            return json_encode([
+                'res'=>1
+            ]);
+        }else{
+            return json_encode([
+                'res'=>0
+            ]);
+        }
     }
 
     //富文本编辑器
@@ -92,6 +102,17 @@ class ArticleController extends \yii\web\Controller
                     "imagePathFormat" => "/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}",//上传保存路径
                     "imageRoot" => \Yii::getAlias("@webroot"),
                 ],
+            ]
+        ];
+    }
+
+    //rbac的过滤器
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::class,
+                'except'=>['upload']
             ]
         ];
     }

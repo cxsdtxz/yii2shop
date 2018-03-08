@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\Goods;
 use backend\models\GoodsCategory;
 use backend\models\GoodsDayCount;
@@ -188,14 +189,22 @@ var_dump($name);
         return $this->render('add', ['model' => $model, 'content' => $content,'nodes'=>json_encode($nodes)]);
     }
 
-    public function actionDelete($id){
+    public function actionDelete(){
+        $request = \Yii::$app->request;
+        $id  = $request->get('id');
         //实例化对象
         $model = Goods::findOne(['id'=>$id]);
         //将状态修改为0
         $model->status = 0;
-        $model->save();
-        \Yii::$app->session->setFlash('success','删除成功');
-        return $this->redirect(['goods/index']);
+        if($model->save()){
+            return json_encode([
+                'res'=>1
+            ]);
+        }else{
+            return json_encode([
+                'res'=>0
+            ]);
+        }
     }
 
     //从回收站还原删除的数据
@@ -207,6 +216,17 @@ var_dump($name);
         $model->save();
         \Yii::$app->session->setFlash('success','还原成功');
         return $this->redirect(['goods/recycle']);
+    }
+
+    //rbac的过滤器
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::class,
+                'except'=>['restore','upload','logo-upload','recycle']
+            ]
+        ];
     }
 
 }

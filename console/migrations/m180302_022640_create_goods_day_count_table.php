@@ -13,6 +13,7 @@ class m180302_022640_create_goods_day_count_table extends Migration
     public function safeUp()
     {
         $this->createTable('goods_day_count', [
+            'id' => $this->primaryKey(),
             'day' => $this->date()->comment('日期'),
             'count'=>$this->integer()->defaultValue(0)->comment('商品数')
         ]);

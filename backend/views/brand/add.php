@@ -60,7 +60,7 @@ uploader.on( 'uploadSuccess', function( file,response ) {
 });
 JS
 );
-echo '<img id="img_upload" width="100px">';
+echo "<img id='img_upload' width='100px' src='{$model->logo}'>";
 echo $form->field($model, 'sort')->textInput();
 echo '<button type="submit" class="btn btn-primary">提交</button>';
 \yii\bootstrap\ActiveForm::end();

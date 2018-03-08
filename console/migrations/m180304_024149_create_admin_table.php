@@ -20,7 +20,7 @@ class m180304_024149_create_admin_table extends Migration
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique()->comment('邮箱'),
 
-            'status' => $this->smallInteger()->notNull()->defaultValue(0)->comment('0启用1禁用'),
+            'status' => $this->smallInteger()->notNull()->defaultValue(10)->comment('0启用1禁用'),
             'created_at' => $this->integer()->notNull()->comment('创建时间'),
             'updated_at' => $this->integer()->notNull()->comment('更新时间'),
             'last_login_time' => $this->string()->notNull()->comment('最后登录时间'),

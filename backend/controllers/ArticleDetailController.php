@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\ArticleDetail;
 
 class ArticleDetailController extends \yii\web\Controller
@@ -12,6 +13,16 @@ class ArticleDetailController extends \yii\web\Controller
 
         //加载视图
         return $this->render('read',['content'=>$content]);
+    }
+
+    //rbac的过滤器
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::class
+            ]
+        ];
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\GoodsCategory;
 
 class GoodsCategoryController extends \yii\web\Controller
@@ -80,6 +81,16 @@ class GoodsCategoryController extends \yii\web\Controller
 
         \Yii::$app->session->setFlash('success','删除成功');
         return $this->redirect(['goods-category/index']);
+    }
+
+    //rbac的过滤器
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::class,
+            ]
+        ];
     }
 
     //ztree插件测试

@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>名称</th>
         <th>上级分类id</th>
@@ -20,3 +20,4 @@
         <td colspan="9"><a href="<?=\yii\helpers\Url::to(['goods-category/add'])?>" class="btn btn-primary">添加</a></td>
     </tr>
 </table>
+

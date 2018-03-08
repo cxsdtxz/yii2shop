@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover table-condensed">
     <tr>
         <th>id</th>
         <th>名称</th>
@@ -16,17 +16,37 @@
         <td><?=$brand['sort']?></td>
         <td>
             <a href="<?=\yii\helpers\Url::to(['brand/edit','id'=>$brand['id']])?>" class="btn btn-primary">修改</a>
-            <a href="<?=\yii\helpers\Url::to(['brand/delete','id'=>$brand['id']])?>" class="btn btn-danger">删除</a>
+            <a href="#" class="btn btn-danger" date="<?=$brand->id?>">删除</a>
         </td>
     </tr>
     <?php endforeach;?>
-    <tr>
-        <td colspan="6">
-            <a class="btn btn-primary" href="<?=\yii\helpers\Url::to(['brand/add'])?>">添加</a>
-        </td>
-    </tr>
 </table>
 <?php
+/**
+ * @var $this \yii\web\View
+ */
 echo \yii\widgets\LinkPager::widget([
         'pagination'=>$pager
 ]);
+$fileName = \yii\helpers\Url::to(['brand/delete']);
+$this->registerJs(
+        <<<JS
+$(function() {
+  $("[date]").click(function() {
+    if(confirm('确认删除吗?')){
+        var id = $(this).attr('date');
+        var del = $(this);
+        $.get("{$fileName}",{'id':id},function(val) {
+          if(val.res == 1){
+              del.closest('tr').remove();
+          }else {
+              alert('删除失败')
+          }
+        },'json')
+    }
+  })
+})
+JS
+
+);
+

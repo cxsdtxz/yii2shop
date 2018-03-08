@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 ?>
-<table class="table">
+<table class="table table-hover">
     <tr>
         <td>用户名</td>
         <td>邮箱</td>
@@ -20,7 +20,7 @@
         <td><?= date('Y-m-d H:i:s',$admin->updated_at)?></td>
         <td><?= date('Y-m-d H:i:s',$admin->last_login_time)?></td>
         <td><?= $admin->last_login_ip?></td>
-        <td><?= $admin->status ? "禁用":"启用"?></td>
+        <td><?= $admin->status ? "启用":"禁用"?></td>
         <td>
             <a href="<?= \yii\helpers\Url::to(['admin/edit','id'=>$admin->id])?>" class="btn btn-primary">修改信息</a>
             <a href="<?= \yii\helpers\Url::to(['admin/delete','id'=>$admin->id])?>" class="btn btn-danger">删除</a>

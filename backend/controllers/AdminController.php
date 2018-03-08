@@ -2,11 +2,13 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\Admin;
 use backend\models\EditPassword;
 use backend\models\LoginForm;
 use backend\models\Repassword;
 use yii\filters\AccessControl;
+use yii\web\HttpException;
 
 class AdminController extends \yii\web\Controller
 {
@@ -29,7 +31,9 @@ class AdminController extends \yii\web\Controller
                     $admin->save(0);
                     //4 跳转
                     \Yii::$app->session->setFlash('success', '登录成功');
-                    return $this->redirect(['admin/index']);
+                    return $this->redirect(['site/index']);
+                }else{
+                    \Yii::$app->session->setFlash('danger', '登录失败');
                 }
             }
         }
@@ -44,23 +48,7 @@ class AdminController extends \yii\web\Controller
         return $this->redirect(['admin/login']);
     }
 
-    //配置过滤器  添加访问权限
-    public function behaviors()
-    {
-        return [
-            'acf' => [
-                'class' => AccessControl::className(),
-                'only' => ['index', 'add', 'edit', 'delete'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'add', 'edit', 'delete'],
-                        'roles' => ['@'],
-                    ],
-                ]
-            ]
-        ];
-    }
+
 
     //验证码
     public function actions()
@@ -91,6 +79,8 @@ class AdminController extends \yii\web\Controller
     {
         //创建模型
         $model = new Admin();
+        //使用场景
+        $model->scenario = Admin::SCENARIO_ADD;
         $request = \Yii::$app->request;
         if ($request->isPost) {
             $model->load($request->post());
@@ -106,11 +96,16 @@ class AdminController extends \yii\web\Controller
                 //给密码加密
                 $model->password_hash = \Yii::$app->security->generatePasswordHash($model->password_hash);
                 $model->save(0);
+                //保存成功后添加关联角色
+                if(is_array($model->roles)){
+                    $authManager = \Yii::$app->authManager;
+                    foreach ($model->roles as $name){
+                        $role = $authManager->getRole($name);
+                        $authManager->assign($role,$model->id);
+                    }
+                }
                 \Yii::$app->session->setFlash('success', '添加成功');
                 return $this->redirect(['admin/index']);
-            } else {
-                var_dump($model->getErrors());
-                die();
             }
         }
         //加载视图
@@ -122,6 +117,20 @@ class AdminController extends \yii\web\Controller
     {
         //创建模型
         $model = Admin::findOne(['id' => $id]);
+        if (!$model){
+            throw new HttpException('404','该用户不存在或已删除');
+        }
+        //使用场景
+        $model->scenario = Admin::SCENARIO_EDIT;
+        //回显多选框
+        $authManager = \Yii::$app->authManager;
+        $roles = $authManager->getRolesByUser($id);
+        $item = [];
+        foreach ($roles as $role){
+            $item[] = $role->name;
+        }
+        $model->roles = $item;
+        //判断传输方式
         $request = \Yii::$app->request;
         if ($request->isPost) {
             $model->load($request->post());
@@ -129,12 +138,19 @@ class AdminController extends \yii\web\Controller
             if ($model->validate()) {
                 //绑定更新时间
                 $model->updated_at = time();
-                //给密码加密
                 $model->save(0);
+                //保存完基本信息,删除该用户关联的所有角色,重新添加新的角色
+                $authManager->revokeAll($id);
+                if(is_array($model->roles)){
+                    foreach ($model->roles as $name) {
+                        $role = $authManager->getRole($name);
+                        $authManager->assign($role,$id);
+                    }
+                }
                 \Yii::$app->session->setFlash('success', '添加成功');
                 return $this->redirect(['admin/index']);
             } else {
-                var_dump($model->getErrors());
+                var_dump($model->getErrors());exit();
             }
         }
         //加载视图
@@ -156,8 +172,9 @@ class AdminController extends \yii\web\Controller
                 if (\Yii::$app->security->validatePassword($model->old_password, $admin->password_hash)) {
                     $admin->password_hash = \Yii::$app->security->generatePasswordHash($model->new_password);
                     $admin->save(0);
-                    \Yii::$app->session->setFlash('success', '修改成功');
-                    return $this->redirect(['admin/index']);
+                    \Yii::$app->user->logout();
+                    \Yii::$app->session->setFlash('success', '修改成功,请重新登录!');
+                    return $this->redirect(['admin/login']);
                 } else {
                     $model->addError('old_password', '旧密码不正确');
                 }
@@ -190,9 +207,27 @@ class AdminController extends \yii\web\Controller
     {
         //查询对应模型
         $model = Admin::findOne(['id' => $id]);
+        if (!$model){
+            throw new HttpException('404','该用户不存在或已删除');
+        }
         $model->delete();
+        //删除该用户关联的所有角色关系
+        $authManager = \Yii::$app->authManager;
+        $authManager->revokeAll($id);
         \Yii::$app->session->setFlash('success', '删除成功');
         return $this->redirect(['admin/index']);
+    }
+
+
+    //rbac的过滤器
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::class,
+                'except'=>['login','logout','repassword','captcha','edit-password']
+            ]
+        ];
     }
 
 }

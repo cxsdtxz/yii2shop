@@ -4,13 +4,13 @@
     <div id="filePicker">选择图片</div>
 </div>
 
-<ul style="list-style:none">
-    <?php foreach ($pathes as $path):?>
-    <hr>
-    <li><img src="<?=$path->path?>" alt="" width="200px">
-        <div style="float:right"><a href="<?=\yii\helpers\Url::to(['goods-gallery/delete','id'=>$path->id])?>" class="btn btn-danger">删除</a></div>
-    </li>
-    <?php endforeach;?>
+<ul class="list-unstyled">
+    <?php foreach ($pathes as $path): ?>
+        <hr>
+        <li><img src="<?= $path->path ?>" alt="" width="200px">
+            <div style="float:right"><a href="#" class="btn btn-danger" date="<?= $path->id ?>">删除</a></div>
+        </li>
+    <?php endforeach; ?>
 </ul>
 
 <?php
@@ -26,6 +26,7 @@ $this->registerJsFile(Yii::getAlias('@web') . '/webuploader-0.1.5/webuploader.js
 
 $logo_upload_file = \yii\helpers\Url::to(['goods-gallery/logo-upload']);
 $file = \yii\helpers\Url::to(['goods-gallery/add']);
+$fileName = \yii\helpers\Url::to(['goods-gallery/delete']);
 //js代码
 $this->registerJs(
     <<<JS
@@ -69,6 +70,23 @@ uploader.on( 'uploadSuccess', function( file,response ) {
         }
     },'json')
 });
+
+//ajax删除
+$(function() {
+  $("[date]").click(function() {
+    if(confirm("确认删除吗?")){
+        var id = $(this).attr("date");
+        var del = $(this);
+        $.get("{$fileName}",{"id":id},function(val) {
+          if(val.res){
+              del.closest('li').remove();
+          }else {
+              alert("删除失败");
+          }
+        },"json")
+    }
+  })
+})
 JS
 
 );

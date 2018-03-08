@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 
+use backend\filters\RbacFilter;
 use backend\models\GoodsGallery;
 use yii\web\UploadedFile;
 
@@ -43,14 +44,30 @@ class GoodsGalleryController extends \yii\web\Controller
         }
     }
 
-    public function actionDelete($id){
+    public function actionDelete(){
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
         //获取id 对应的对象
         $model = GoodsGallery::findOne(['id'=>$id]);
-        $model->delete();
-        \Yii::$app->session->setFlash('success','删除成功');
-        return $this->redirect(['goods-gallery/index','id'=>$model->goods_id]);
+        if($model->delete()){
+            return json_encode([
+                'res'=>1
+            ]);
+        }else{
+            return json_encode([
+                'res'=>0
+            ]);
+        }
     }
 
-
-
+    //rbac的过滤器
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::class,
+                'except'=>['logo-upload']
+            ]
+        ];
+    }
 }

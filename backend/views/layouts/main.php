@@ -37,11 +37,13 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => '首页', 'url' => ['/admin/index']],
-        ['label' => '修改密码', 'url' => ['/admin/edit-password']],
     ];
+
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/admin/login']];
+        $menuItems[] = ['label' => '登录', 'url' => ['/admin/login']];
     } else {
+        $menuItems = \backend\models\Menu::getItems($menuItems);
+        $menuItems[] = ['label' => '修改密码', 'url' => ['/admin/edit-password']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/admin/logout'], 'post')
             . Html::submitButton(

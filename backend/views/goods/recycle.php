@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover">
     <a href="<?=\yii\helpers\Url::to(['goods/index'])?>" class="btn btn-primary">回到首页</a>
     <tr>
         <td>商品名称</td>

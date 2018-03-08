@@ -2,7 +2,9 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\Brand;
+use function Couchbase\fastlzCompress;
 use yii\data\Pagination;
 use yii\web\UploadedFile;
 // 引入鉴权类
@@ -18,7 +20,7 @@ class BrandController extends \yii\web\Controller
     {
         //分页 查询总条数
         $total = Brand::find()->where(['is_deleted' => 0])->count();
-        $pageSize = 3;
+        $pageSize =6;
         $pager = new Pagination();
         $pager->defaultPageSize = $pageSize;
         $pager->totalCount = $total;
@@ -42,9 +44,6 @@ class BrandController extends \yii\web\Controller
                 $model->save();
                 \Yii::$app->session->setFlash('success', '添加成功');
                 return $this->redirect(['brand/index']);
-            } else {
-                var_dump($model->getErrors());
-                die();
             }
         }
         //加载视图
@@ -74,14 +73,23 @@ class BrandController extends \yii\web\Controller
         return $this->render('add', ['model' => $model]);
     }
 
-    public function actionDelete($id)
+    public function actionDelete()
     {
+        //接受id
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
         //将is_deleted改为1 表示删除
         $model = Brand::findOne(['id' => $id]);
         $model->is_deleted = 1;
-        $model->save();
-        \Yii::$app->session->setFlash('success', '删除成功');
-        return $this->redirect(['brand/index']);
+        if($model->save()){
+            return json_encode([
+                'res'=>1
+            ]);
+        }else{
+            return json_encode([
+                'res'=>0
+            ]);
+        }
     }
 
     //图片上传
@@ -120,6 +128,17 @@ class BrandController extends \yii\web\Controller
                 ]);
             }
         }
+    }
+
+    //rbac的过滤器
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::class,
+                'except'=>['logo-upload']
+            ]
+        ];
     }
 
 }

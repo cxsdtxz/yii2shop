@@ -31,7 +31,7 @@ class Brand extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'sort','logo'], 'required'],
-            [['name', 'sort'], 'unique'],
+            [['name'], 'unique'],
             [['sort', 'is_deleted'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['intro'], 'string', 'max' => 255],

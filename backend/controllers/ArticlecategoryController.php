@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\Articlecategory;
 
 class ArticlecategoryController extends \yii\web\Controller
@@ -52,12 +53,32 @@ class ArticlecategoryController extends \yii\web\Controller
         return $this->render('add',['model'=>$model]);
     }
 
-    public function actionDelete($id){
+    public function actionDelete(){
+        //接受id
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
         //修改is_deleted
         $model = Articlecategory::findOne(['id'=>$id]);
         $model->is_deleted = 1;
-        $model->save();
-        \Yii::$app->session->setFlash('success','删除成功');
-        return $this->redirect(['articlecategory/index']);
+        if($model->save()){
+            return json_encode([
+                'res'=>1
+            ]);
+        }else{
+            return json_encode([
+                'res'=>0
+            ]);
+        }
+
+    }
+
+    //rbac的过滤器
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::class,
+            ]
+        ];
     }
 }

@@ -20,7 +20,7 @@ echo '<button type="submit" class="btn btn-primary">搜索</button>';
 \yii\bootstrap\ActiveForm::end();
 ?>
 
-<table class="table">
+<table class="table table-hover table-condensed">
     <tr>
         <td>商品名称</td>
         <td>货号</td>
@@ -49,7 +49,7 @@ echo '<button type="submit" class="btn btn-primary">搜索</button>';
         <td>
             <a href="<?=\yii\helpers\Url::to(['goods-gallery/index','id'=>$good->id])?>" class="btn btn-default"><span class="glyphicon glyphicon-picture"></span>相册</a>
             <a href="<?=\yii\helpers\Url::to(['goods/edit','id'=>$good->id])?>" class="btn btn-primary">编辑</a>
-            <a href="<?=\yii\helpers\Url::to(['goods/delete','id'=>$good->id])?>" class="btn btn-danger">删除</a>
+            <a href="#" class="btn btn-danger" date="<?=$good->id?>">删除</a>
         </td>
     </tr>
     <?php endforeach;?>
@@ -64,3 +64,24 @@ echo '<button type="submit" class="btn btn-primary">搜索</button>';
 echo \yii\widgets\LinkPager::widget([
         'pagination'=>$pager
 ]);
+$fileName = \yii\helpers\Url::to(['goods/delete']);
+$this->registerJs(
+    <<<JS
+$(function() {
+  $("[date]").click(function() {
+    if(confirm("确认删除吗?")){
+        var id = $(this).attr("date");
+        var del = $(this);
+        $.get("{$fileName}",{"id":id},function(val) {
+          if(val.res){
+              del.closest('tr').remove();
+          }else {
+              alert("删除失败");
+          }
+        },"json")
+    }
+  })
+})
+JS
+
+);
