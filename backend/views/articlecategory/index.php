@@ -13,14 +13,15 @@
         <td><?=$articlecategory->intro?></td>
         <td><?=$articlecategory->sort?></td>
         <td>
+            <?php if (Yii::$app->user->can('articlecategory/edit')):?>
             <a href="<?= \yii\helpers\Url::to(['articlecategory/edit','id'=>$articlecategory->id])?>" class="btn btn-primary">修改</a>
+            <?php endif;?>
+            <?php if (Yii::$app->user->can('articlecategory/delete')):?>
             <a href="#" class="btn btn-danger" date="<?=$articlecategory->id?>">删除</a>
+            <?php endif;?>
         </td>
     </tr>
     <?php endforeach;?>
-    <tr>
-        <td colspan="5"><a href="<?=\yii\helpers\Url::to(['articlecategory/add'])?>" class="btn btn-primary">添加</a></td>
-    </tr>
 </table>
 <?php
 /**

@@ -15,8 +15,12 @@
         <td><img src="<?=$brand['logo']?>" alt="请等待" width="50px"></td>
         <td><?=$brand['sort']?></td>
         <td>
+            <?php if(Yii::$app->user->can('brand/edit')):?>
             <a href="<?=\yii\helpers\Url::to(['brand/edit','id'=>$brand['id']])?>" class="btn btn-primary">修改</a>
+            <?php endif;?>
+            <?php if(Yii::$app->user->can('brand/delete')):?>
             <a href="#" class="btn btn-danger" date="<?=$brand->id?>">删除</a>
+            <?php endif;?>
         </td>
     </tr>
     <?php endforeach;?>

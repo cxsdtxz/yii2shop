@@ -22,13 +22,16 @@
         <td><?= $admin->last_login_ip?></td>
         <td><?= $admin->status ? "启用":"禁用"?></td>
         <td>
+            <?php if (Yii::$app->user->can('admin/edit')):?>
             <a href="<?= \yii\helpers\Url::to(['admin/edit','id'=>$admin->id])?>" class="btn btn-primary">修改信息</a>
+            <?php endif;?>
+            <?php if (Yii::$app->user->can('admin/delete')):?>
             <a href="<?= \yii\helpers\Url::to(['admin/delete','id'=>$admin->id])?>" class="btn btn-danger">删除</a>
+            <?php endif;?>
+            <?php if (Yii::$app->user->can('admin/re-password')):?>
             <a href="<?= \yii\helpers\Url::to(['admin/re-password','id'=>$admin->id])?>" class="btn btn-danger">重置密码</a>
+            <?php endif;?>
         </td>
     </tr>
     <?php endforeach;?>
-    <tr>
-        <td colspan="8"><a href="<?=\yii\helpers\Url::to(['admin/add'])?>" class="btn btn-primary">添加</a></td>
-    </tr>
 </table>

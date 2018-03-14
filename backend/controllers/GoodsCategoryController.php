@@ -69,7 +69,10 @@ class GoodsCategoryController extends \yii\web\Controller
         return $this->render('add',['model'=>$model,'nodes'=>json_encode($nodes)]);
     }
 
-    public function actionDelete($id){
+    public function actionDelete(){
+        //接受id
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
         //根据id 找到对应的数据
         $model = GoodsCategory::findOne(['id'=>$id]);
         //判断是否删除的是根节点,如果是用deleteWithChildren删除
@@ -78,9 +81,9 @@ class GoodsCategoryController extends \yii\web\Controller
         }else{
             $model->deleteWithChildren();
         }
-
-        \Yii::$app->session->setFlash('success','删除成功');
-        return $this->redirect(['goods-category/index']);
+        return json_encode([
+            'res'=>1
+        ]);
     }
 
     //rbac的过滤器

@@ -31,7 +31,7 @@ class AdminController extends \yii\web\Controller
                     $admin->save(0);
                     //4 跳转
                     \Yii::$app->session->setFlash('success', '登录成功');
-                    return $this->redirect(['site/index']);
+                    return $this->redirect(['site/home']);
                 }else{
                     \Yii::$app->session->setFlash('danger', '登录失败');
                 }
@@ -225,7 +225,7 @@ class AdminController extends \yii\web\Controller
         return [
             'rbac'=>[
                 'class'=>RbacFilter::class,
-                'except'=>['login','logout','repassword','captcha','edit-password']
+                'except'=>['login','logout','captcha','edit-password']
             ]
         ];
     }

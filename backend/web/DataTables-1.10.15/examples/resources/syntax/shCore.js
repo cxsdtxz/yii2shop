@@ -529,11 +529,11 @@ function findParentElement(target, className)
 };
 
 /**
- * Finds an index of element in the array.
+ * Finds an home of element in the array.
  * @ignore
  * @param {Object} searchElement
  * @param {Number} fromIndex
- * @return {Number} Returns index of element if found; -1 otherwise.
+ * @return {Number} Returns home of element if found; -1 otherwise.
  */
 function indexOf(array, searchElement, fromIndex)
 {
@@ -996,7 +996,7 @@ function unindent(str)
 
 /**
  * Callback method for Array.sort() which sorts matches by
- * index position and then by length.
+ * home position and then by length.
  *
  * @param {Match} m1    Left object.
  * @param {Match} m2    Right object.
@@ -1004,14 +1004,14 @@ function unindent(str)
  */
 function matchesSortCallback(m1, m2)
 {
-    // sort matches by index first
+    // sort matches by home first
     if(m1.index < m2.index)
         return -1;
     else if(m1.index > m2.index)
         return 1;
     else
     {
-        // if index is the same, sort by length
+        // if home is the same, sort by length
         if(m1.length < m2.length)
             return -1;
         else if(m1.length > m2.length)
@@ -1884,7 +1884,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
                         'page-break-after page-break-before page-break-inside pause pause-after pause-before pitch pitch-range play-during position ' +
                         'quotes right richness size slope src speak-header speak-numeral speak-punctuation speak speech-rate stemh stemv stress ' +
                         'table-layout text-align top text-decoration text-indent text-shadow text-transform unicode-bidi unicode-range units-per-em ' +
-                        'vertical-align visibility voice-family volume white-space widows width widths word-spacing x-height z-index';
+                        'vertical-align visibility voice-family volume white-space widows width widths word-spacing x-height z-home';
 
         var values =    'above absolute all always aqua armenian attr aural auto avoid baseline behind below bidi-override black blink block blue bold bolder '+
                         'both bottom braille capitalize caption center center-left center-right circle close-quote code collapse compact condensed '+
@@ -2027,7 +2027,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
                         'deallocate dec decimal declare default delete desc distinct double drop ' +
                         'dynamic else end end-exec escape except exec execute false fetch first ' +
                         'float for force foreign forward free from full function global goto grant ' +
-                        'group grouping having hour ignore index inner insensitive insert instead ' +
+                        'group grouping having hour ignore home inner insensitive insert instead ' +
                         'int integer intersect into is isolation key last level load local max min ' +
                         'minute modify move name national nchar next no numeric of off on only ' +
                         'open option order out output partial password precision prepare primary ' +

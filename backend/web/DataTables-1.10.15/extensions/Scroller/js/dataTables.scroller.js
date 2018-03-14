@@ -300,7 +300,7 @@ $.extend( Scroller.prototype, {
 	 *  @param {int} iPixels Offset from top to calculate the row number of
 	 *  @param {int} [intParse=true] If an integer value should be returned
 	 *  @param {int} [virtual=false] Perform the calculations in the virtual domain
-	 *  @returns {int} Row index
+	 *  @returns {int} Row home
 	 *  @example
 	 *    $(document).ready(function() {
 	 *      $('#example').dataTable( {
@@ -330,7 +330,7 @@ $.extend( Scroller.prototype, {
 
 	/**
 	 * Calculate the row number that will be found at the given pixel position (y-scroll)
-	 *  @param {int} iRow Row index to scroll to
+	 *  @param {int} iRow Row home to scroll to
 	 *  @param {bool} [bAnimate=true] Animate the transition or not
 	 *  @returns {void}
 	 *  @example

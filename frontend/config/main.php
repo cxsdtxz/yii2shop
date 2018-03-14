@@ -7,6 +7,7 @@ $params = array_merge(
 );
 
 return [
+    'layout'=>false,
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -16,9 +17,10 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'frontend\models\Members',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'loginUrl'=>'members/login'
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -36,14 +38,21 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'suffix'=>'.html',
             'rules' => [
             ],
         ],
-        */
+        'sms'=> [
+            'class'=>\frontend\aliyun\SmsHandler::class,
+            'ak'=>'LTAIN6uSO04XBVNz',
+            'sk'=>'jvNUj99wlkPTxEFPCQ54s8ydWtz31y',
+            'sign'=>'松哥茶楼',
+            'template'=>'SMS_126895029'
+        ]
     ],
     'params' => $params,
 ];

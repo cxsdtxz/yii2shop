@@ -52,12 +52,21 @@ class MenuController extends \yii\web\Controller
         return $this->render('add',['model'=>$model]);
     }
 
-    public function actionDelete($id){
+    public function actionDelete(){
+        //接受id
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
         //找到对应模型
         $model = Menu::findOne(['id'=>$id]);
-        $model->delete();
-        \Yii::$app->session->setFlash('success','删除成功');
-        return $this->redirect(['menu/index']);
+        if($model->delete()){
+            return json_encode([
+                'res'=>1
+            ]);
+        }else{
+            return json_encode([
+                'res'=>0
+            ]);
+        }
     }
 
 

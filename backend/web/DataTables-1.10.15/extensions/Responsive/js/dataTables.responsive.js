@@ -292,7 +292,7 @@ $.extend( Responsive.prototype, {
 		var i, ien;
 
 		// Create an array that defines the column ordering based first on the
-		// column's priority, and secondly the column index. This allows the
+		// column's priority, and secondly the column home. This allows the
 		// columns to be removed from the right if the priority matches
 		var order = columns
 			.map( function ( col, idx ) {
@@ -601,7 +601,7 @@ $.extend( Responsive.prototype, {
 			}
 		} );
 
-		// type.target can be a string jQuery selector or a column index
+		// type.target can be a string jQuery selector or a column home
 		var target   = details.target;
 		var selector = typeof target === 'string' ? target : 'td, th';
 
@@ -619,7 +619,7 @@ $.extend( Responsive.prototype, {
 					return;
 				}
 
-				// For column index, we determine if we should act or not in the
+				// For column home, we determine if we should act or not in the
 				// handler - otherwise it is already okay
 				if ( typeof target === 'number' ) {
 					var targetIdx = target < 0 ?
@@ -655,7 +655,7 @@ $.extend( Responsive.prototype, {
 
 	/**
 	 * Get the details to pass to a renderer for a row
-	 * @param  {int} rowIdx Row index
+	 * @param  {int} rowIdx Row home
 	 * @private
 	 */
 	_detailsObj: function ( rowIdx )
@@ -887,7 +887,7 @@ $.extend( Responsive.prototype, {
 	 * supported (and all evergreen browsers of course) the control of the
 	 * display attribute works well.
 	 *
-	 * @param {integer} col      Column index
+	 * @param {integer} col      Column home
 	 * @param {boolean} showHide Show or hide (true or false)
 	 * @private
 	 */
@@ -1073,7 +1073,7 @@ Responsive.renderer = {
 		return function ( api, rowIdx, columns ) {
 			var data = $.map( columns, function ( col ) {
 				return col.hidden ?
-					'<li data-dtr-index="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+					'<li data-dtr-home="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
 						'<span class="dtr-title">'+
 							col.title+
 						'</span> '+
@@ -1085,7 +1085,7 @@ Responsive.renderer = {
 			} ).join('');
 
 			return data ?
-				$('<ul data-dtr-index="'+rowIdx+'" class="dtr-details"/>').append( data ) :
+				$('<ul data-dtr-home="'+rowIdx+'" class="dtr-details"/>').append( data ) :
 				false;
 		}
 	},
@@ -1183,12 +1183,12 @@ Api.register( 'responsive()', function () {
 	return this;
 } );
 
-Api.register( 'responsive.index()', function ( li ) {
+Api.register( 'responsive.home()', function ( li ) {
 	li = $(li);
 
 	return {
-		column: li.data('dtr-index'),
-		row:    li.parent().data('dtr-index')
+		column: li.data('dtr-home'),
+		row:    li.parent().data('dtr-home')
 	};
 } );
 

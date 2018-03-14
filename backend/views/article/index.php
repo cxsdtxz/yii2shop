@@ -17,15 +17,18 @@
         <td><?=$article->sort?></td>
         <td><?=date('Y-m-d H:i:s',$article->create_time)?></td>
         <td>
+            <?php if (Yii::$app->user->can('article/edit')):?>
             <a href="<?=\yii\helpers\Url::to(['article/edit','id'=>$article->id])?>" class="btn btn-primary">修改</a>
+            <?php endif;?>
+            <?php if (Yii::$app->user->can('article/delete')):?>
             <a href="#" class="btn btn-danger" date="<?= $article->id?>">删除</a>
+            <?php endif;?>
+            <?php if (Yii::$app->user->can('article-detail/read')):?>
             <a href="<?=\yii\helpers\Url::to(['article-detail/read','id'=>$article->id])?>" class="btn btn-primary">查看</a>
+            <?php endif;?>
         </td>
     </tr>
     <?php endforeach;?>
-    <tr>
-        <td colspan="7"><a href="<?=\yii\helpers\Url::to(['article/add'])?>" class="btn btn-primary">添加</a></td>
-    </tr>
 </table>
 <?php
 /**

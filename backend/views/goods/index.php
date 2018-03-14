@@ -1,7 +1,7 @@
 <?php
 $form = \yii\bootstrap\ActiveForm::begin([
         'layout'=>'inline',
-        'action'=>\yii\helpers\Url::to(['goods/index']),
+        'action'=>\yii\helpers\Url::to(['goods/home']),
         'method'=>'get'
 ]);
 echo $form->field($search,'name')->textInput([
@@ -47,15 +47,20 @@ echo '<button type="submit" class="btn btn-primary">搜索</button>';
         <td><?=date('Y-m-d',$good->create_time)?></td>
         <td><?=$good->view_times?></td>
         <td>
+
             <a href="<?=\yii\helpers\Url::to(['goods-gallery/index','id'=>$good->id])?>" class="btn btn-default"><span class="glyphicon glyphicon-picture"></span>相册</a>
+
+            <?php if (Yii::$app->user->can('goods/edit')):?>
             <a href="<?=\yii\helpers\Url::to(['goods/edit','id'=>$good->id])?>" class="btn btn-primary">编辑</a>
+            <?php endif;?>
+            <?php if (Yii::$app->user->can('goods/delete')):?>
             <a href="#" class="btn btn-danger" date="<?=$good->id?>">删除</a>
+            <?php endif;?>
         </td>
     </tr>
     <?php endforeach;?>
     <tr>
         <td colspan="12">
-            <a href="<?=\yii\helpers\Url::to(['goods/add'])?>" class="btn btn-primary">添加</a>
             <a href="<?=\yii\helpers\Url::to(['goods/recycle'])?>" class="btn btn-primary">回收站</a>
         </td>
     </tr>

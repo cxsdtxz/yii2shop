@@ -12,8 +12,12 @@
         <td><?= $permission->name?></td>
         <td><?= $permission->description?></td>
         <td>
+            <?php if (Yii::$app->user->can('rbac/edit-permission')):?>
             <a href="<?=\yii\helpers\Url::to(['rbac/edit-permission','name'=>$permission->name])?>" class="btn btn-primary">修改</a>
-            <a href="<?=\yii\helpers\Url::to(['rbac/delete-permission','name'=>$permission->name])?>" class="btn btn-danger">删除</a>
+            <?php endif;?>
+            <?php if (Yii::$app->user->can('rbac/delete-permission')):?>
+            <a href="#" class="btn btn-danger" date="<?=$permission->name?>">删除</a>
+            <?php endif;?>
         </td>
     </tr>
     <?php endforeach;?>
@@ -31,7 +35,7 @@ $this->registerJsFile("@web/DataTables-1.10.15/media/js/jquery.dataTables.js",[
         'depends'=>\yii\web\JqueryAsset::class
 ]);
 
-
+$fileName = \yii\helpers\Url::to(['rbac/delete-permission']);
 $this->registerJs(
     <<<JS
 $(document).ready( function () {
@@ -64,6 +68,22 @@ $('#table_id_example').DataTable({
         }
     }
 });
+
+$(function() {
+  $("[date]").click(function() {
+    if(confirm('确认删除吗?')){
+        var name = $(this).attr('date');
+        var del = $(this);
+        $.get("{$fileName}",{'name':name},function(val) {
+          if(val.res == 1){
+              del.closest('tr').remove();
+          }else {
+              alert('删除失败')
+          }
+        },'json')
+    }
+  })
+})
 JS
 
 );

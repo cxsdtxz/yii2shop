@@ -94,8 +94,10 @@ class RbacController extends \yii\web\Controller
      * @return \yii\web\Response
      * 删除权限
      */
-    public function actionDeletePermission($name)
+    public function actionDeletePermission()
     {
+        $requset = \Yii::$app->request;
+        $name = $requset->get('name');
         //通过name 找到对应对象 删除
         $authManager = \Yii::$app->authManager;
         $permission = $authManager->getPermission($name);
@@ -103,13 +105,13 @@ class RbacController extends \yii\web\Controller
             throw new HttpException('404','该权限不存在');
         }
         if ($authManager->remove($permission)) {
-            //设置信息
-            \Yii::$app->session->setFlash('success', '删除成功');
-            return $this->redirect(['rbac/index-permission']);
+           return json_encode([
+               'res'=>1
+           ]);
         } else {
-            //设置信息
-            \Yii::$app->session->setFlash('danger', '删除失败,该权限不存在');
-            return $this->redirect(['rbac/index-permission']);
+            return json_encode([
+                'res'=>0
+            ]);
         }
     }
 
@@ -207,7 +209,9 @@ class RbacController extends \yii\web\Controller
     }
 
     //删除角色
-    public function actionDeleteRole($name){
+    public function actionDeleteRole(){
+        $requset = \Yii::$app->request;
+        $name = $requset->get('name');
         //获取该角色对象
         $authManager = \Yii::$app->authManager;
         $role = $authManager->getRole($name);
@@ -220,9 +224,15 @@ class RbacController extends \yii\web\Controller
             $authManager->removeChild($role,$permission);
         }
         //删除角色
-        $authManager->remove($role);
-        \Yii::$app->session->setFlash('success','删除成功');
-        return $this->redirect(['rbac/index-role']);
+        if ($authManager->remove($role)) {
+            return json_encode([
+                'res'=>1
+            ]);
+        } else {
+            return json_encode([
+                'res'=>0
+            ]);
+        }
     }
 
 

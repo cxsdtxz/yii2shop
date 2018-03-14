@@ -125,8 +125,8 @@ $.extend( KeyTable.prototype, {
 
 	/**
 	 * Focus on a cell
-	 * @param  {integer} row    Row index
-	 * @param  {integer} column Column index
+	 * @param  {integer} row    Row home
+	 * @param  {integer} column Column home
 	 */
 	focus: function ( row, column )
 	{
@@ -135,7 +135,7 @@ $.extend( KeyTable.prototype, {
 
 	/**
 	 * Is the cell focused
-	 * @param  {object} cell Cell index to check
+	 * @param  {object} cell Cell home to check
 	 * @returns {boolean} true if focused, false otherwise
 	 */
 	focused: function ( cell )
@@ -424,9 +424,9 @@ $.extend( KeyTable.prototype, {
 	 *
 	 * @param  {DataTables.Api|integer} row Can be given as an API instance that
 	 *   contains the cell to focus or as an integer. As the latter it is the
-	 *   visible row index (from the whole data set) - NOT the data index
+	 *   visible row home (from the whole data set) - NOT the data home
 	 * @param  {integer} [column] Not required if a cell is given as the first
-	 *   parameter. Otherwise this is the column data index for the cell to
+	 *   parameter. Otherwise this is the column data home for the cell to
 	 *   focus on
 	 * @param {boolean} [shift=true] Should the viewport be moved to show cell
 	 * @private
@@ -732,7 +732,7 @@ $.extend( KeyTable.prototype, {
 
 		var
 			row = currRow,
-			column = columns[ currCol ]; // row is the display, column is an index
+			column = columns[ currCol ]; // row is the display, column is an home
 
 		if ( direction === 'right' ) {
 			if ( currCol >= columns.length - 1 ) {
@@ -887,7 +887,7 @@ KeyTable.defaults = {
 	keys: null,
 
 	/**
-	 * Tab index for where the table should sit in the document's tab flow
+	 * Tab home for where the table should sit in the document's tab flow
 	 * @type {integer|null}
 	 */
 	tabIndex: null
