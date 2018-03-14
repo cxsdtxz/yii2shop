@@ -124,7 +124,7 @@
         <div class="cart fl">
             <dl>
                 <dt>
-                    <a href="">去购物车结算</a>
+                    <a href="<?=\yii\helpers\Url::to(['goods/carts'])?>">去购物车结算</a>
                     <b></b>
                 </dt>
                 <dd>
@@ -152,12 +152,12 @@
             <div class="cat_bd">
                 <?php foreach ($ones as $one):?>
                 <div class="cat item1">
-                    <h3><a href=""><?= $one->name?></a><b></b></h3>
+                    <h3><a href="<?=\yii\helpers\Url::to(['list/index','goods_category_id'=>$one->id])?>"><?= $one->name?></a><b></b></h3>
                     <div class="cat_detail">
                         <?php $twos = \backend\models\GoodsCategory::find()->where(['parent_id'=>$one->id])->all()?>
                         <?php foreach ($twos as $two):?>
                         <dl class="dl_1st">
-                            <dt><a href="<?=\yii\helpers\Url::to(['list/index'])?>"><?=$two->name?></a></dt>
+                            <dt><a href="<?=\yii\helpers\Url::to(['list/index','goods_category_id'=>$two->id])?>"><?=$two->name?></a></dt>
                             <?php $threes = \backend\models\GoodsCategory::find()->where(['parent_id'=>$two->id])->all()?>
                             <?php foreach ($threes as $three):?>
                             <dd>
