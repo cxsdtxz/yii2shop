@@ -31,7 +31,7 @@ class AdminController extends \yii\web\Controller
                     $admin->save(0);
                     //4 跳转
                     \Yii::$app->session->setFlash('success', '登录成功');
-                    return $this->redirect(['site/home']);
+                    return $this->redirect(['admin/index']);
                 }else{
                     \Yii::$app->session->setFlash('danger', '登录失败');
                 }
