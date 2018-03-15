@@ -24,9 +24,17 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <li>您好，欢迎来到京西!
+                    <?php if (Yii::$app->user->isGuest):?>
+                        [<a href="<?=\yii\helpers\Url::to(['members/login'])?>">登录</a>]
+                                                                                      [<a href="<?=\yii\helpers\Url::to(['members/register'])?>">免费注册</a>]
+                    <?php else:?>
+                        [<a href="<?=\yii\helpers\Url::to(['members/logout'])?>">注销</a>]
+                    <?php endif;?>
                 <li class="line">|</li>
-                <li>我的订单</li>
+                    <?php if(!Yii::$app->user->isGuest):?>
+                        <li><a href="<?=\yii\helpers\Url::to(['order/index'])?>">我的订单</a></li>
+                    <?php endif;?>
                 <li class="line">|</li>
                 <li>客户服务</li>
 
@@ -75,13 +83,21 @@
                 </dt>
                 <dd>
                     <div class="prompt">
-                        您好，请<a href="">登录</a>
+                        您好
+                        <?php if (Yii::$app->user->isGuest):?>
+                            ，请<a href="<?=\yii\helpers\Url::to(['members/login'])?>">登录</a>
+                        <?php else:?>
+                            ,<?=Yii::$app->user->identity->username?>
+                        <?php endif;?>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
                             <li><a href="">用户信息></a></li>
-                            <li><a href="">我的订单></a></li>
-                            <li><a href="">收货地址></a></li>
+                            <?php if(!Yii::$app->user->isGuest):?>
+                                <li><a href="<?= \yii\helpers\Url::to(['order/index'])?>">我的订单></a></li>
+
+                                <li><a href="<?=\yii\helpers\Url::to(['address/index'])?>">收货地址></a></li>
+                            <?php endif;?>
                             <li><a href="">我的收藏></a></li>
                         </ul>
 
