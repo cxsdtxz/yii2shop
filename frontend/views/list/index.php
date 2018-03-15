@@ -436,7 +436,7 @@
                 <?php foreach ($goodses as $goods):?>
                 <li>
                     <dl>
-                        <dt><a href="<?= \yii\helpers\Url::to(['goods/index','id'=>$goods->id])?>"><img src="http://admin.shop.com<?=$goods->logo?>" alt="" class="view_times" data="<?=$goods->id?>"/></a></dt>
+                        <dt><a href="<?= \yii\helpers\Url::to(['goods/index','id'=>$goods->id])?>"><img src="http://admin.bossxs.top<?=$goods->logo?>" alt="" class="view_times" data="<?=$goods->id?>"/></a></dt>
                         <dd><a href="<?= \yii\helpers\Url::to(['goods/index','id'=>$goods->id])?>" class="view_times" data="<?=$goods->id?>"><?=$goods->name?></a></dt>
                         <dd><strong>￥<?=$goods->shop_price?></strong></dt>
                         <dd><a href="<?= \yii\helpers\Url::to(['goods/index','id'=>$goods->id])?>" class="view_times" data="<?=$goods->id?>"><em>已有<?=$goods->view_times?>人点击</em></a></dt>
