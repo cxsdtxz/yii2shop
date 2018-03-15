@@ -521,7 +521,10 @@
                             完成
                         <?php endif;?>
                     </td>
-                    <td><a href="javascript:;" class="del" data="<?=$order->id?>">取消订单</a></td>
+                    <td>
+                        <a href="javascript:;" class="del" data="<?=$order->id?>">取消订单</a>
+
+                    </td>
                 </tr>
                 <?php endforeach;?>
                 </tbody>

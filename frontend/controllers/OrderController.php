@@ -116,6 +116,7 @@ class OrderController extends Controller
 
             }catch (Exception $e){
                 $transaction->rollBack();
+                
                 return $this->redirect(['goods/carts']);
             }
 
