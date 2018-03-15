@@ -97,13 +97,16 @@ class AddressController extends \yii\web\Controller
 
     //设置地址为默认地址
     public function actionDefault($id){
-        $model = Address::findOne(['id'=>$id]);
-        if ($model->default == 1){
-            $model->default = 0;
-        }else{
-            $model->default = 1;
+        $models = Address::find()->all();
+        foreach ($models as $model) {
+            if ($model->default == 1){
+                $model->default = 0;
+                $model->save();
+            }
         }
-        $model->save();
+        $address = Address::findOne(['id'=>$id]);
+        $address->default = 1;
+        $address->save();
         return $this->redirect(['address/index']);
     }
 }

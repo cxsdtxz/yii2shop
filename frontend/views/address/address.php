@@ -471,7 +471,7 @@
                 <dd>
                     <a href="#" class="edit" data="<?=$address->id?>" onclick="return false">修改</a>
                     <a href="#" data="<?=$address->id?>" onclick="return false" class="delete">删除</a>
-                    <a href="<?=\yii\helpers\Url::to(['address/default','id'=>$address->id])?>"><?= $address->default ? "取消默认设置": "设为默认地址"?></a>
+                    <a href="<?=\yii\helpers\Url::to(['address/default','id'=>$address->id])?>"><?= $address->default ? "": "设为默认地址"?></a>
                 </dd>
             </dl>
             <?php endforeach;?>
