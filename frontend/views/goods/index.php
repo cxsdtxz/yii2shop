@@ -331,8 +331,8 @@
             <!-- 图片预览区域 start -->
             <div class="preview fl">
                 <div class="midpic">
-                    <a href="http://admin.shop.com<?=$goods->logo?>" class="jqzoom" rel="gal1">   <!-- 第一幅图片的大图 class 和 rel属性不能更改 -->
-                        <img src="http://admin.shop.com<?=$goods->logo?>" alt="" width="300px"/>               <!-- 第一幅图片的中图 -->
+                    <a href="http://admin.bossxs.top<?=$goods->logo?>" class="jqzoom" rel="gal1">   <!-- 第一幅图片的大图 class 和 rel属性不能更改 -->
+                        <img src="http://admin.bossxs.top<?=$goods->logo?>" alt="" width="300px"/>               <!-- 第一幅图片的中图 -->
                     </a>
                 </div>
 
@@ -344,11 +344,11 @@
                     <div class="smallpic_wrap">
                         <ul>
 <!--                            <li class="cur">-->
-<!--                                <a class="zoomThumbActive" href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: 'images/preview_m1.jpg',largeimage: 'images/preview_l1.jpg'}"><img src="http://admin.shop.com--><!--"></a>-->
+<!--                                <a class="zoomThumbActive" href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: 'images/preview_m1.jpg',largeimage: 'images/preview_l1.jpg'}"><img src="http://admin.bossxs.top--><!--"></a>-->
 <!--                            </li>-->
                             <?php foreach ($pics as $pic):?>
                             <li>
-                                <a href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: 'http://admin.shop.com<?=$pic->path?>',largeimage: 'http://admin.shop.com<?=$pic->path?>'}"><img src="http://admin.shop.com<?=$pic->path?>"></a>
+                                <a href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: 'http://admin.shop.com<?=$pic->path?>',largeimage: 'http://admin.shop.com<?=$pic->path?>'}"><img src="http://admin.bossxs.top<?=$pic->path?>"></a>
                             </li>
                             <?php endforeach;?>
                         </ul>

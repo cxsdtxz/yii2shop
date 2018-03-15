@@ -176,7 +176,7 @@
                     $goods = \backend\models\Goods::findOne(['id'=>$cart->goods_id]);
                     ?>
                 <tr>
-                    <td class="col1"><a href=""><img src="http://admin.shop.com<?=$goods->logo?>" alt="" /></a>  <strong><a href=""><?=$goods->name?></a></strong></td>
+                    <td class="col1"><a href=""><img src="http://admin.bossxs.top<?=$goods->logo?>" alt="" /></a>  <strong><a href=""><?=$goods->name?></a></strong></td>
                     <td class="col3">￥<?=$goods->shop_price?></td>
                     <td class="col4"> <?=$cart->amount?></td>
                     <td class="col5"><span>￥<?=$cart->amount*$goods->shop_price?></span></td>

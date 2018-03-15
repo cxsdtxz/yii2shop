@@ -71,7 +71,7 @@
         <?php foreach ($carts as $goods_id=>$amount):?>
             <?php $goods = \backend\models\Goods::findOne(['id'=>$goods_id])?>
         <tr data="<?=$goods_id?>">
-            <td class="col1"><a href=""><img src="http://admin.shop.com<?=$goods->logo?>" alt="" /></a>  <strong><a href=""><?=$goods->name?></a></strong></td>
+            <td class="col1"><a href=""><img src="http://admin.bossxs.top<?=$goods->logo?>" alt="" /></a>  <strong><a href=""><?=$goods->name?></a></strong></td>
             <td class="col3">￥<span><?=$goods->shop_price?></span></td>
             <td class="col4">
                 <a href="javascript:;" class="reduce_num"></a>

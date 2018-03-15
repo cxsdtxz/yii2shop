@@ -514,7 +514,7 @@
                     <td><a href=""><?=$order->id?></a></td>
                     <td>
                         <?php foreach ($goodsOrders as $goodsOrder):?>
-                        <a href="<?=\yii\helpers\Url::to(['goods/index','id'=>$goodsOrder->goods_id])?>"><img src="http://admin.shop.com<?=$goodsOrder->logo?>" alt="" /></a>
+                        <a href="<?=\yii\helpers\Url::to(['goods/index','id'=>$goodsOrder->goods_id])?>"><img src="http://admin.bossxs.top<?=$goodsOrder->logo?>" alt="" /></a>
                         <?php endforeach;?>
                     </td>
                     <td><?=$order->name?></td>
