@@ -31,7 +31,7 @@ class AddressController extends \yii\web\Controller
                 $model->member_id = \Yii::$app->user->id;
                 //保存
                 $model->save();
-                return $this->redirect(['address/home']);
+                return $this->redirect(['address/index']);
             }else{
                 var_dump($model->getErrors());die();
             }
@@ -104,6 +104,6 @@ class AddressController extends \yii\web\Controller
             $model->default = 1;
         }
         $model->save();
-        return $this->redirect(['address/home']);
+        return $this->redirect(['address/index']);
     }
 }
