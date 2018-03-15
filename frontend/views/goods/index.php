@@ -348,7 +348,7 @@
 <!--                            </li>-->
                             <?php foreach ($pics as $pic):?>
                             <li>
-                                <a href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: 'http://admin.shop.com<?=$pic->path?>',largeimage: 'http://admin.shop.com<?=$pic->path?>'}"><img src="http://admin.bossxs.top<?=$pic->path?>"></a>
+                                <a href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: 'http://admin.bossxs.top<?=$pic->path?>',largeimage: 'http://admin.bossxs.top<?=$pic->path?>'}"><img src="http://admin.bossxs.top<?=$pic->path?>"></a>
                             </li>
                             <?php endforeach;?>
                         </ul>
