@@ -7,7 +7,9 @@ $params = array_merge(
 );
 
 return [
+    //配置首页
     'defaultRoute'=>'home/index',
+    //关闭layout
     'layout'=>false,
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),

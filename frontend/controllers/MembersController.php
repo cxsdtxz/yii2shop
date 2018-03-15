@@ -95,8 +95,8 @@ class MembersController extends \yii\web\Controller
                 $model->status = 1;
                 //保存数据
                 $model->save(0);
-                \Yii::$app->session->setFlash('success','注册成功');
-                return $this->redirect(['members/home']);
+
+                return $this->redirect(['members/login']);
             }
         }
         return $this->render('register');
