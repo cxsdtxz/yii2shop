@@ -72,7 +72,7 @@ class GoodsController extends \yii\web\Controller
                     }
                 }
             }else{
-                //没有这个商品,所有新添加一条
+                //没有这个商品,所以新添加一条
                 $request = \Yii::$app->request;
                 $model = new Cart();
                 if($request->isGet){
